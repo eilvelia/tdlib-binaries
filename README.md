@@ -1,5 +1,7 @@
 # TDLib Binaries
 
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/Bannerets/tdlib-binaries.svg)](https://github.com/Bannerets/tdlib-binaries)
+
 TDLib repository: https://github.com/tdlib/td
 
 ## TDLib 1.2.0 Release
