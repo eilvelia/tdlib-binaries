@@ -4,6 +4,10 @@
 
 TDLib repository: https://github.com/tdlib/td
 
+## See also
+
+https://github.com/ForNeVeR/tdlib.native
+
 ## TDLib 1.2.0 Release
 
 ### macOS
