@@ -8,6 +8,10 @@ TDLib repository: https://github.com/tdlib/td
 
 https://github.com/ForNeVeR/tdlib.native
 
+## TDLib 1.3.0 Release
+
+-
+
 ## TDLib 1.2.0 Release
 
 ### macOS
@@ -30,7 +34,7 @@ Compiled on Debian 9 x86_64
 - OpenSSL 1.1.0f 25 May 2017
 - zlib 1.2.8
 
-### Alpine Linux (x86_64)
+### Alpine Linux (musl) (x86_64)
 
 - [libtdjson.so](1.2.0/linux64alpine/libtdjson.so)
 - - [Dropbox](https://www.dropbox.com/s/yow6fqk6p0hpkdv/libtdjson.so?dl=0)
