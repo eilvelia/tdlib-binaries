@@ -1,58 +1,51 @@
-# WIP
-
 FROM apiaryio/emcc:1.38.11
 
-# Install packages
-RUN apt-get -y update \
-  && apt-get install -y g++ ccache cmake make git wget sed gperf libssl-dev libreadline-dev zlib1g zlib1g-dev
-
-# Info
-RUN uname -a
-RUN cat /etc/os-release
+RUN apt-get -y update
+RUN apt-get install -y g++ ccache openssl cmake gperf make git libssl-dev libreadline-dev zlib1g zlib1g-dev wget
 
 WORKDIR /
-ENV OPENSSL_VER OpenSSL_1_1_0i
 
-# Compile openssl
+#             Patched tdlib; commit 2f7b563
+RUN git clone https://github.com/feelfreelinux/td.git
 
-# Download openssl
-RUN wget https://github.com/openssl/openssl/archive/${OPENSSL_VER}.tar.gz -O - \
-  | tar xz
+SHELL ["/bin/bash", "-c"]
 
-#./Configure no-ssl3 no-comp no-hw no-engine no-deprecated no-shared no-dso --openssldir=built linux-generic32
-#./Configure no-asm no-comp no-hw no-engine no-deprecated no-dso shared --openssldir=built linux-generic32
-RUN cd openssl-${OPENSSL_VER} \
-  && emmake bash \
-  && ./Configure no-asm shared --openssldir=built linux-generic32 \
-  && sed -i 's/\/emscripten\/emcc/cc/g' Makefile \
-  && sed -i 's/-Wall -O3 -pthread/-Wall -pthread/g' Makefile \
-  && sed -i 's/\/emscripten\/em\/emscripten\/emar/emar/g' Makefile \
+WORKDIR /td
+RUN mkdir build
+WORKDIR build
+RUN cmake -DCMAKE_BUILD_TYPE=Release ..
+RUN make -j 2
+# RUN cmake --build . --target prepare_cross_compiling
+RUN rm -rf *
+
+WORKDIR /
+
+# ENV OPENSSL openssl-1.0.2a
+# ENV OPENSSL openssl-1.0.2p
+# ENV OPENSSL openssl-1.1.0i
+ENV OPENSSL openssl-1.1.0f
+ENV EXT tar.gz
+RUN wget https://www.openssl.org/source/${OPENSSL}.${EXT} && tar -xvzf ${OPENSSL}.${EXT}
+
+WORKDIR ${OPENSSL}
+RUN echo "Compiling OpenSSL..." \
+  && emconfigure ./Configure no-asm no-ssl3 no-comp no-hw no-engine no-shared no-dso --openssldir=built linux-generic32 \
   && sed -i 's/CROSS_COMPILE= \/emscripten\/em/CROSS_COMPILE= /g' Makefile \
-  && make -j 4 \
-  && exit
-
-# Compile tdlib
-
-RUN cd / \
-  && git clone https://github.com/tdlib/td.git /td
-
-RUN cd /td \
-  && mkdir native-build \
-  && mkdir build \
-  && cd /td/native-build \
-  && cmake -DCMAKE_BUILD_TYPE=Release .. \
-  && cmake --build . --target prepare_cross_compiling \
-  && cd /td/build
+  && sed -i "s/-D_REENTRANT -O3 -Wall/-D_REENTRANT -Wall/g" Makefile \
+  && sed -i 's/-Wall -O3 -pthread/-Wall -pthread/g' Makefile \
+  && emmake make -j 4
 
 WORKDIR /td/build
 
-RUN cmake \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_TOOLCHAIN_FILE=/emscripten/cmake/Modules/Platform/Emscripten.cmake \
-  -DOPENSSL_INCLUDE_DIR=/openssl-${OPENSSL_VER}/include \
-  -DOPENSSL_CRYPTO_LIBRARY=/openssl-${OPENSSL_VER}/libcrypto.so \
-  -DOPENSSL_SSL_LIBRARY=/openssl-${OPENSSL_VER}/libssl.so \
-  ..
+ENV OPENSSL_ROOT_DIR /${OPENSSL}
+ENV OPENSSL_INCLUDE_DIR ${OPENSSL_ROOT_DIR}/include
+ENV OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/libcrypto.a
+ENV OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/libssl.a
 
-RUN cmake --build . -- -j 2
-# RUN make -j 2
+RUN emmake bash \
+  && emcmake cmake -DCMAKE_BUILD_TYPE=Release \
+  -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR} \
+  -DOPENSSL_CRYPTO_LIBRARY=${OPENSSL_CRYPTO_LIBRARY} \
+  -DOPENSSL_SSL_LIBRARY=${OPENSSL_SSL_LIBRARY} \
+  .. \
+  && emmake make -j 2
