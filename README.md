@@ -6,11 +6,18 @@ TDLib repository: https://github.com/tdlib/td
 
 ## See also
 
-https://github.com/ForNeVeR/tdlib.native
+- https://github.com/ForNeVeR/tdlib.native
 
 ## TDLib 1.3.0 Release
 
--
+### Emscripten
+
+- [td_wasm.zip](1.3.0/emscripten/td_wasm.zip)
+- - [Dropbox](https://www.dropbox.com/s/orcblhkjodace9f/td_wasm.zip?dl=0)
+
+Compiled using dockerfile in this repository.
+
+- OpenSSL 1.1.0f
 
 ## TDLib 1.2.0 Release
 
@@ -60,6 +67,7 @@ Compiled on Alpine Linux 3.7 x86_64
 
 | File | SHA256 |
 |------|--------|
+| [1.3.0/emscripten/td_wasm.zip](1.3.0/emscripten/td_wasm.zip) | `535167198f4a3fb6a56020436cabc7dde806adeba3e4d88ac60e699cd36fa593` |
 | [1.2.0/macos/libtdjson.dylib](1.2.0/macos/libtdjson.dylib) | `4b396b518eb32af815c7cc1adc9227e0bd8856f0bc1be2294e54bf8166d25b1c` |
 | [1.2.0/linux64/libtdjson.so](1.2.0/linux64/libtdjson.so) | `7eea887da564e154040a6386addaf3017f9948dff2541d12b098fdf10af28b9d` |
 | [1.2.0/linux64alpine/libtdjson.so](1.2.0/linux64alpine/libtdjson.so) | `f827707556170fc1a945b85e9c8c42140fc77d5361ced14a56ea758a929caf62` |
