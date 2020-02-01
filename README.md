@@ -8,6 +8,17 @@ TDLib repository: https://github.com/tdlib/td
 
 - https://github.com/ForNeVeR/tdlib.native
 
+## TDLib 1.4.0 Release
+
+### Windows (x64)
+
+- [tdjson.dll](1.4.0/win64/bin/tdjson.dll)
+- - [mega.nz](https://mega.nz/#!X2JzGQwa!JTUlw2JdyIoOgfys8eHSuUpUdpW_FGbuUq8gaCTVHTs)
+- [zlib1.dll](1.4.0/win64/bin/zlib1.dll)
+- - [mega.nz](https://mega.nz/#!inR1hahY!6zwAdwqIE6ocSGnbp5bLYZXbGt3oAnCplJySSf82DyM)
+- OpenSSL 1.0.2s
+- zlib 1.2.11
+
 ## TDLib 1.3.0 Release
 
 ### Emscripten
@@ -72,3 +83,4 @@ Compiled on Alpine Linux 3.7 x86_64
 | [1.2.0/linux64/libtdjson.so](1.2.0/linux64/libtdjson.so) | `7eea887da564e154040a6386addaf3017f9948dff2541d12b098fdf10af28b9d` |
 | [1.2.0/linux64alpine/libtdjson.so](1.2.0/linux64alpine/libtdjson.so) | `f827707556170fc1a945b85e9c8c42140fc77d5361ced14a56ea758a929caf62` |
 | [1.2.0/win64/tdjson.dll](1.2.0/win64/tdjson.dll) | `6baeaf345b3f5bc6008d602496ca0b2c259485f138447758e139b727338a9057` |
+| [1.4.0/win64/bin/tdjson.dll](1.4.0/win64/bin/tdjson.dll) | `c6d110356ec60909b3f9b55a87b2aa0547c3aa2964d5a4465843a68259f26478` |
